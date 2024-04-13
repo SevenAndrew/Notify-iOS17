@@ -1,4 +1,4 @@
-# Use
+# readme
 
 If you want to learn how to use CoreData and are looking for a few examples for tableView, you can download a basis for a minimal note application here.
 ![note_app](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/d8854683-3e32-447f-a644-cfdbe29b80cb)
