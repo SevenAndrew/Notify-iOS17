@@ -9,23 +9,27 @@
 /* Begin PBXBuildFile section */
 		86BDBDA82BC1D2D400C60DD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDA72BC1D2D400C60DD2 /* AppDelegate.swift */; };
 		86BDBDAA2BC1D2D400C60DD2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDA92BC1D2D400C60DD2 /* SceneDelegate.swift */; };
-		86BDBDAC2BC1D2D400C60DD2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDAB2BC1D2D400C60DD2 /* ViewController.swift */; };
+		86BDBDAC2BC1D2D400C60DD2 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDAB2BC1D2D400C60DD2 /* NoteViewController.swift */; };
 		86BDBDAF2BC1D2D400C60DD2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 86BDBDAE2BC1D2D400C60DD2 /* Base */; };
 		86BDBDB22BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDB02BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodeld */; };
 		86BDBDB42BC1D2D500C60DD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86BDBDB32BC1D2D500C60DD2 /* Assets.xcassets */; };
 		86BDBDB72BC1D2D500C60DD2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 86BDBDB62BC1D2D500C60DD2 /* Base */; };
+		86BDBDC22BC1D77B00C60DD2 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDC12BC1D77B00C60DD2 /* NoteListViewController.swift */; };
+		86BDBDC42BC1D7CC00C60DD2 /* NoteCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BDBDC32BC1D7CC00C60DD2 /* NoteCategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		86BDBDA42BC1D2D400C60DD2 /* Notify-iOS17.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Notify-iOS17.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86BDBDA72BC1D2D400C60DD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86BDBDA92BC1D2D400C60DD2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		86BDBDAB2BC1D2D400C60DD2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		86BDBDAB2BC1D2D400C60DD2 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		86BDBDAE2BC1D2D400C60DD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		86BDBDB12BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notify_iOS17.xcdatamodel; sourceTree = "<group>"; };
 		86BDBDB32BC1D2D500C60DD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		86BDBDB62BC1D2D500C60DD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86BDBDB82BC1D2D500C60DD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86BDBDC12BC1D77B00C60DD2 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NoteListViewController.swift; path = "Notify-iOS17/View/NoteListViewController.swift"; sourceTree = SOURCE_ROOT; };
+		86BDBDC32BC1D7CC00C60DD2 /* NoteCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NoteCategoryViewController.swift; path = "Notify-iOS17/Controller/NoteCategoryViewController.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,14 +64,40 @@
 			children = (
 				86BDBDA72BC1D2D400C60DD2 /* AppDelegate.swift */,
 				86BDBDA92BC1D2D400C60DD2 /* SceneDelegate.swift */,
-				86BDBDAB2BC1D2D400C60DD2 /* ViewController.swift */,
-				86BDBDAD2BC1D2D400C60DD2 /* Main.storyboard */,
+				86BDBDC02BC1D34B00C60DD2 /* Model */,
+				86BDBDBE2BC1D31100C60DD2 /* View */,
+				86BDBDBF2BC1D31E00C60DD2 /* Controller */,
 				86BDBDB32BC1D2D500C60DD2 /* Assets.xcassets */,
 				86BDBDB52BC1D2D500C60DD2 /* LaunchScreen.storyboard */,
 				86BDBDB82BC1D2D500C60DD2 /* Info.plist */,
-				86BDBDB02BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodeld */,
 			);
 			path = "Notify-iOS17";
+			sourceTree = "<group>";
+		};
+		86BDBDBE2BC1D31100C60DD2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86BDBDAD2BC1D2D400C60DD2 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86BDBDBF2BC1D31E00C60DD2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				86BDBDC32BC1D7CC00C60DD2 /* NoteCategoryViewController.swift */,
+				86BDBDC12BC1D77B00C60DD2 /* NoteListViewController.swift */,
+				86BDBDAB2BC1D2D400C60DD2 /* NoteViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		86BDBDC02BC1D34B00C60DD2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86BDBDB02BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodeld */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,8 +172,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				86BDBDB22BC1D2D400C60DD2 /* Notify_iOS17.xcdatamodeld in Sources */,
-				86BDBDAC2BC1D2D400C60DD2 /* ViewController.swift in Sources */,
+				86BDBDAC2BC1D2D400C60DD2 /* NoteViewController.swift in Sources */,
 				86BDBDA82BC1D2D400C60DD2 /* AppDelegate.swift in Sources */,
+				86BDBDC22BC1D77B00C60DD2 /* NoteListViewController.swift in Sources */,
+				86BDBDC42BC1D7CC00C60DD2 /* NoteCategoryViewController.swift in Sources */,
 				86BDBDAA2BC1D2D400C60DD2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

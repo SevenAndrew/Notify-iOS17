@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Note" representedClassName="Note" parentEntity="NoteCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NoteCategory" inverseName="relationshipToNote" inverseEntity="NoteCategory"/>
+    </entity>
+    <entity name="NoteCategory" representedClassName="NoteCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryTitle" optional="YES" attributeType="String"/>
+        <relationship name="relationshipToNote" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="parent" inverseEntity="Note"/>
+    </entity>
 </model>

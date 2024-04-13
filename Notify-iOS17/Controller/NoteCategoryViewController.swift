@@ -5,85 +5,110 @@
 //  Created by Andreas Sauerwein on 06.04.24.
 //
 
+import CoreData
 import UIKit
 
 class NoteCategoryViewController: UITableViewController {
 
+    var noteCategoryArray = [NoteCategory]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        loadCategories()
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return noteCategoryArray.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let noteCategory = noteCategoryArray[indexPath.row].categoryTitle
+        cell.textLabel?.text = noteCategory
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    //MARK: - Data Manipulation Methods
+    
+    func saveCategories() {
+        do {
+            try context.save()
+            print("Categories saved") //debug
+        } catch {
+            print("Error saving context \(error)")
+        }
+        self.tableView.reloadData()
     }
-    */
-
-    /*
-    // Override to support editing the table view.
+    
+    func loadCategories(with request: NSFetchRequest<NoteCategory> = NoteCategory.fetchRequest()) {
+          do {
+            noteCategoryArray = try context.fetch(request)
+              print("Categories loaded") //debug
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        self.tableView.reloadData()
+    }
+    
+    func deleteCategory(at indexPath: IndexPath) {
+        context.delete(noteCategoryArray[indexPath.row])
+        noteCategoryArray.remove(at: indexPath.row)
+        saveCategories()
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let categoryToDelete = noteCategoryArray[indexPath.row]
+            let alert = UIAlertController(title: "Delete Category", message: "Are you sure you want to delete '\(categoryToDelete.categoryTitle ?? "this category")'? This will also delete all notes in this category.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.deleteCategory(at: indexPath)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true)
+        }
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    //MARK: - add new Categories
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add new Category", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Category", style: .default) { [weak self] _ in
+            guard let self = self, let text = textField.text, !text.isEmpty else {
+                print("Error: Category name is empty")
+                return
+            }
+            let newCategory = NoteCategory(context: self.context)
+            newCategory.categoryTitle = text
+            print("New Category: \(String(describing: newCategory.categoryTitle))") //debug
+            self.noteCategoryArray.append(newCategory)
+            self.saveCategories()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new Category"
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    //MARK: - Navigation
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToNotesList", sender: self)
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let destinationVC = segue.destination as! NoteListViewController
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = noteCategoryArray[indexPath.row]
+        }
     }
-    */
-
+    
 }

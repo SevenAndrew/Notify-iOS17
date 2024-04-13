@@ -5,85 +5,113 @@
 //  Created by Andreas Sauerwein on 06.04.24.
 //
 
+import CoreData
 import UIKit
 
 class NoteListViewController: UITableViewController {
 
+    var noteArray = [Note]()
+    var selectedCategory: NoteCategory? {
+        didSet {
+            loadNotes()
+        }
+    }
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 
+    //MARK: - Manipulate Data
+    
+    func saveNotes() {
+        do {
+            try context.save()
+            print("Note saved") //debug
+        } catch {
+            print("Error saving context \(error)")
+        }
+        self.tableView.reloadData()
+    }
+    
+    func loadNotes(with request: NSFetchRequest<Note> = Note.fetchRequest(), predicate: NSPredicate? = nil) {
+        guard let categoryTitle = selectedCategory?.categoryTitle else {
+            print("Error: No category selected")
+            noteArray = []
+            self.tableView.reloadData()
+            return
+        }
+        let categoryPredicate = NSPredicate(format: "parent.categoryTitle MATCHES %@", categoryTitle)
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        do {
+            noteArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        self.tableView.reloadData()
+    }
+
+    // MARK: - Add new Notes
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add new Note", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Note", style: .default) { [weak self] _ in
+            guard let self = self, let text = textField.text, !text.isEmpty else {
+                print("Error: Note title is empty")
+                return
+            }
+            let newNote = Note(context: self.context)
+            newNote.title = text
+            newNote.text = "Enter note text here..."
+            newNote.parent = self.selectedCategory
+            
+            self.noteArray.append(newNote)
+            print("Note added") //debug
+            self.saveNotes()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new Note"
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    //MARK: - Navigation
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToNote", sender: self)
+        print("Selected row: \(indexPath.row)") //debug
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! NoteViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedNote = noteArray[indexPath.row]
+        }
+    }
+    
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return noteArray.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as UITableViewCell
+        let note = noteArray[indexPath.row]
+        cell.textLabel?.text = note.title
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
