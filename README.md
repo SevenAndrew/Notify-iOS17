@@ -21,4 +21,4 @@ ViewControllers are used in total:
 
   Click on the Save button to close the NoteViewController.
   
-![launch_screen](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/90a92530-c08b-4776-a873-8fe73056a61d)
+![Screenshot 2024-04-13 at 22 53 21](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/c007dd5c-d7e7-4271-ab84-2955a88c058f)
