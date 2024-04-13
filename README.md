@@ -4,7 +4,7 @@ If you want to learn how to use CoreData and are looking for a few examples for 
 ![note_app](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/d8854683-3e32-447f-a644-cfdbe29b80cb)
 This is just a starting point (with a navigation controller) for app development.
 
-ViewControllers are used in total:
+Three ViewControllers are used in total:
 
 * NoteCategoryViewController
 
