@@ -67,7 +67,7 @@ class NoteCategoryViewController: UITableViewController {
     }
 
     //MARK: - delete Category with Swipe
-    
+    // UI Contextual Action for Swipe to delete
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
             guard let self = self else {
@@ -92,7 +92,7 @@ class NoteCategoryViewController: UITableViewController {
 
         return configuration
     }
-    
+    // delete Category in Core Data
     func deleteCategory(at indexPath: IndexPath) {
         context.delete(noteCategoryArray[indexPath.row])
         noteCategoryArray.remove(at: indexPath.row)

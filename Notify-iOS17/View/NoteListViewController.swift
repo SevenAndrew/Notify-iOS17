@@ -88,7 +88,7 @@ class NoteListViewController: UITableViewController {
     }
     
     //MARK: - delete Notes
-    
+    // UI action to delete a note
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
@@ -117,7 +117,7 @@ class NoteListViewController: UITableViewController {
         return configuration
     }
 
-    
+    // delete note from core data and update table view
     func deleteNote(at indexPath: IndexPath) {
         let noteToDelete = noteArray[indexPath.row]
         context.delete(noteToDelete)
