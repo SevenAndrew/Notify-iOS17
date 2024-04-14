@@ -9,8 +9,11 @@ Three ViewControllers are used in total:
 
 * NoteCategoryViewController
 
-  Categories for notes can be created here. A deletion function has not yet been implemented. A delete function will be added in the next version using swipe right.
+  Categories for notes can be created here. A deletion function has been implemented - delete requires swipe left.
  ![Screenshot 2024-04-13 at 22 59 27](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/1b7a9448-9487-47d8-9222-4ef8884c488c)
+
+<img width="396" alt="Screenshot 2024-04-14 at 13 56 08" src="https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/0f2541f7-a419-48b8-a124-c54b237f9d44">
+
 
 * NoteListViewController
 
