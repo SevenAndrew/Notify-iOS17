@@ -21,6 +21,7 @@ A deletion function has been implemented - delete requires swipe left.
 
   The individual notes can be created in this ViewController, whereas only the title is created here.
   (This view controller can also be omitted; it was added for demonstration purposes).
+  
  ![Screenshot 2024-04-13 at 22 59 39](https://github.com/SevenAndrew/Notify-iOS17/assets/82178604/f26b6f29-0c9d-41ce-8b33-3b691eafb7c1)
 * NoteViewController
 
