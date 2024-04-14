@@ -87,6 +87,51 @@ class NoteListViewController: UITableViewController {
         
     }
     
+    //MARK: - delete Notes
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+       
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+
+            guard let self = self else {
+                completionHandler(false)
+                return
+            }
+
+            let alert = UIAlertController(title: "Delete Note", message: "Are you sure you want to delete this note?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.deleteNote(at: indexPath)
+                completionHandler(true)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                completionHandler(false)
+            }))
+            self.present(alert, animated: true)
+        }
+        
+        deleteAction.backgroundColor = .red
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+
+        return configuration
+    }
+
+    
+    func deleteNote(at indexPath: IndexPath) {
+        let noteToDelete = noteArray[indexPath.row]
+        context.delete(noteToDelete)
+        noteArray.remove(at: indexPath.row)
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context after deleting note: \(error)")
+        }
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+
+    
+    
     //MARK: - Navigation
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

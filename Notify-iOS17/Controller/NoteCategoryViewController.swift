@@ -53,11 +53,6 @@ class NoteCategoryViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func deleteCategory(at indexPath: IndexPath) {
-        context.delete(noteCategoryArray[indexPath.row])
-        noteCategoryArray.remove(at: indexPath.row)
-        saveCategories()
-    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -71,6 +66,41 @@ class NoteCategoryViewController: UITableViewController {
         }
     }
 
+    //MARK: - delete Category with Swipe
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+            guard let self = self else {
+                completionHandler(false)
+                return
+            }
+            let alert = UIAlertController(title: "Delete Category", message: "Are you sure you want to delete '\(self.noteCategoryArray[indexPath.row].categoryTitle ?? "this category")'? This will also delete all notes in this category.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.deleteCategory(at: indexPath)
+                completionHandler(true)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                completionHandler(false)
+            }))
+            self.present(alert, animated: true)
+        }
+
+        deleteAction.backgroundColor = .red
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+
+        return configuration
+    }
+    
+    func deleteCategory(at indexPath: IndexPath) {
+        context.delete(noteCategoryArray[indexPath.row])
+        noteCategoryArray.remove(at: indexPath.row)
+        saveCategories()
+    }
+
+    
+    
     //MARK: - add new Categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
