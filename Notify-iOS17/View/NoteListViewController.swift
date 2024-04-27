@@ -100,6 +100,7 @@ class NoteListViewController: UITableViewController {
 
             let alert = UIAlertController(title: "Delete Note", message: "Are you sure you want to delete this note?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                //FIXME: - fix here
                 self.deleteNote(at: indexPath)
                 completionHandler(true)
             }))
